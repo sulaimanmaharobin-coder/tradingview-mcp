@@ -19,3 +19,5 @@ analysis/**/alerts-manifest.json
 analysis/**/ta/majors.json
 analysis/**/ta/alts.json
 analysis/**/ta/macro.json
+analysis/watch/state.json
+analysis/watch/20*/
