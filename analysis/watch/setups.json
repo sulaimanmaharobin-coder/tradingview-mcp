@@ -1,0 +1,23 @@
+{
+  "_note": "Conditional plans from analysis/2026-09-12/ta desk notes. daily.mjs evaluates each against fresh 4H bars. Edit freely; levels in quote currency. gate: none | major_clean_bullish | major_clean_bearish",
+  "as_of": "2026-09-12",
+  "setups": [
+    { "sym": "BINANCE:BTCUSDT",  "dir": "long",  "name": "BTC dip-long",       "zone": [76000, 76300],  "stop": 73500, "target": 82300, "gate": "none",
+      "flip_bull": 79500, "breakdown": 76000, "note": "Sitting on 50W EMA; MACD hist expanding negative. Take only one major dip-long — prefer ETH." },
+    { "sym": "BINANCE:ETHUSDT",  "dir": "long",  "name": "ETH pullback-long",  "zone": [2400, 2440],    "stop": 2340,  "target": 2666,  "gate": "none",
+      "invalidation": 2356, "note": "RS leader, only clean bullish. Daily close < 2,356 breaks 4H HL." },
+    { "sym": "BINANCE:SOLUSDT",  "dir": "long",  "name": "SOL dip-long",       "zone": [98.0, 98.7],    "stop": 92.9,  "target": 110.6, "gate": "none",
+      "flip_bull": 105.9, "breakdown": 97.4, "note": "Lowest-quality major; below 50W EMA; 3 rejections at 105–107." },
+    { "sym": "BINANCE:LINKUSDT", "dir": "long",  "name": "LINK pullback-long", "zone": [10.90, 11.15],  "stop": 10.30, "target": 13.35, "gate": "major_clean_bullish",
+      "note": "Best alt R:R; above 50D and 200D. Only with a clean bullish major." },
+    { "sym": "BINANCE:AVAXUSDT", "dir": "long",  "name": "AVAX pullback-long", "zone": [7.10, 7.20],    "stop": 6.80,  "target": 8.10,  "gate": "major_clean_bullish",
+      "note": "Counter-200D; lowest priority." },
+    { "sym": "BINANCE:SUIUSDT",  "dir": "short", "name": "SUI retest-short",   "zone": [0.745, 0.760],  "stop": 0.790, "target": 0.663, "gate": "major_clean_bearish",
+      "note": "Bearish bias fragile (RSI 44.9). Short only on a failed retest with a clean bearish major." }
+  ],
+  "regime_levels": [
+    { "sym": "CRYPTOCAP:TOTAL", "above": 2733000000000, "meaning": "box breakout up — with BTC.D < 59.56 = first alt-season setup" },
+    { "sym": "CRYPTOCAP:TOTAL", "below": 2547000000000, "meaning": "box breakdown — BTC-led risk-off" },
+    { "sym": "CRYPTOCAP:BTC.D", "above": 59.56, "meaning": "dominance reclaim — bearish dominance read fails" }
+  ]
+}
