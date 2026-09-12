@@ -5,3 +5,17 @@ temp_*
 *.log
 discovery-log.json
 rules.json
+CLAUDE.local.md
+# analysis/: track the scripts, ignore pulled data and generated outputs
+analysis/**/raw*.json
+analysis/**/symbols/
+analysis/**/*.html
+analysis/**/*.md
+analysis/**/*.log
+analysis/**/bias*.json
+analysis/**/report.json
+analysis/**/summary.json
+analysis/**/alerts-manifest.json
+analysis/**/ta/majors.json
+analysis/**/ta/alts.json
+analysis/**/ta/macro.json

@@ -1,0 +1,23 @@
+{
+  "_note": "Template for creating a 'Rules bias changed' alert via POST https://pricealerts.tradingview.com/create_alert (body: {payload:...}, Content-Type text/plain, withCredentials). Replace payload.symbol and expiration. alert_cond_id plot_3 = first alertcondition ('Rules bias changed'); plot_4 / plot_5 = Turned BULLISH / BEARISH. pine_id is the saved script id from pine_list_scripts.",
+  "payload": {
+    "conditions": [{
+      "type": "alert_cond", "frequency": "on_bar_close", "alert_cond_id": "plot_3",
+      "series": [{
+        "type": "study", "study": "Script@tv-scripting-101",
+        "offsets_by_plot": {"plot_0": 0, "plot_1": 0},
+        "inputs": {"pineFeatures": "{\"indicator\":1,\"plot\":1,\"str\":1,\"ta\":1,\"math\":1,\"alertcondition\":1,\"table\":1,\"request.security\":1}",
+                   "in_0": "D", "in_1": "240", "in_2": 50, "in_3": 200, "in_4": 14, "in_5": 2, "in_6": 20, "in_7": 2, "in_8": true, "in_9": false,
+                   "__fast_calc": false, "__profile": false},
+        "pine_id": "USER;a453662a90284cc1952fe118b93b7127", "pine_version": "1.0"
+      }],
+      "resolution": "1D"
+    }],
+    "symbol": "={\"symbol\":\"BINANCE:BTCUSDT\"}",
+    "resolution": "1D",
+    "message": "Rules bias changed on {{ticker}}",
+    "sound_file": null, "sound_duration": 0, "popup": false, "auto_deactivate": false,
+    "email": true, "sms_over_email": false, "mobile_push": true, "web_hook": null, "name": null,
+    "expiration": "2026-10-12T05:30:00.000Z", "active": true, "ignore_warnings": true
+  }
+}
