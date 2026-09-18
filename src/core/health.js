@@ -9,6 +9,28 @@ import { dirname, basename, join } from 'path';
 // Best-effort git-pull update check: compare local HEAD to origin's default
 // branch on GitHub. Never throws — returns null on any failure (offline,
 // detached HEAD, not a git checkout) so it can't break the health check.
+//
+// An update is only pending when the remote HEAD is NOT already contained in
+// local history. A checkout that carries local commits on top of origin/main
+// (a fork, a feature branch) has a different HEAD sha but nothing to pull,
+// so plain sha inequality would report a permanent false positive.
+
+/**
+ * Decide whether an update is pending given local/remote HEAD shas.
+ * @param {string} localSha
+ * @param {string} remoteSha
+ * @param {(sha: string) => boolean} isAncestor — true if `sha` is already in local history
+ */
+export function computeUpdateStatus(localSha, remoteSha, isAncestor) {
+  const upToDate = remoteSha === localSha || isAncestor(remoteSha);
+  return {
+    update_available: !upToDate,
+    local_commit: localSha.slice(0, 8),
+    latest_commit: remoteSha.slice(0, 8),
+    ...(!upToDate && { hint: 'Run the tv_update tool (or `tv update` CLI) to update, then restart the MCP server.' }),
+  };
+}
+
 let _updateCache = null;
 async function checkForUpdate() {
   if (_updateCache && (Date.now() - _updateCache.at) < 3600_000) return _updateCache.value;
@@ -28,13 +50,15 @@ async function checkForUpdate() {
         req.on('error', () => resolve(null));
         req.setTimeout(3000, () => { req.destroy(); resolve(null); });
       });
-      if (remoteSha) {
-        value = {
-          update_available: remoteSha !== localSha,
-          local_commit: localSha.slice(0, 8),
-          latest_commit: remoteSha.slice(0, 8),
-          ...(remoteSha !== localSha && { hint: 'Run the tv_update tool (or `tv update` CLI) to update, then restart the MCP server.' }),
+      if (remoteSha && /^[0-9a-f]{40}$/.test(remoteSha)) {
+        // Unknown-locally (not yet fetched) or non-ancestor → update pending.
+        const isAncestor = (sha) => {
+          try {
+            execSync(`git merge-base --is-ancestor ${sha} HEAD`, { timeout: 3000, stdio: 'ignore' });
+            return true;
+          } catch { return false; }
         };
+        value = computeUpdateStatus(localSha, remoteSha, isAncestor);
       }
     }
   } catch { /* best-effort */ }
